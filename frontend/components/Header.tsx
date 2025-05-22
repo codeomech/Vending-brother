@@ -3,12 +3,10 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Store, Menu, X } from "lucide-react";
+import { ShoppingCart, Store } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { useState } from "react";
 
 interface HeaderProps {
   productsCount?: number;
@@ -16,7 +14,6 @@ interface HeaderProps {
 
 export default function Header({ productsCount = 0 }: HeaderProps) {
   const { getTotalItems, setIsCartOpen } = useCart();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const totalItems = getTotalItems();
 
   const handleCartClick = () => {

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowLeft, AlertCircle, Package } from "lucide-react";
+import { ArrowLeft, AlertCircle } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { buyItems } from "@/service/api";
 import OrderSummary from "@/components/OrderSummary";
