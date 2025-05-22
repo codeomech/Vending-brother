@@ -6,7 +6,7 @@ A modern, full-stack vending machine application built with Next.js, TypeScript,
 
 ## 🚀 Live Demo
 
-[**View Live Application**](https://vending-brother.vercel.app/) | [**API Documentation**](your-api-docs-url)
+[**View Live Application**](https://vending-brother.vercel.app/) | [**API Documentation**](https://documenter.getpostman.com/view/23293706/2sB2qaiMMg)
 
 ## 📋 Table of Contents
 
