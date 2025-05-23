@@ -1,15 +1,14 @@
-// pages/success.tsx or app/success/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Router } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Home, ShoppingCart, Gift } from "lucide-react";
 
 export default function SuccessPage() {
-  const router = useRouter();
+  const router = Router();
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
@@ -19,17 +18,19 @@ export default function SuccessPage() {
     }, 1000);
 
     const redirectTimer = setTimeout(() => {
-      router.push("/");
+      // Use window.location.replace() to prevent going back to this page
+      window.location.replace('/');
     }, 5000);
 
     return () => {
       clearInterval(timer);
       clearTimeout(redirectTimer);
     };
-  }, [router]);
+  }, []);
 
   const handleGoHome = () => {
-    router.push("/");
+    // Use window.location.replace() here as well
+    window.location.replace('/');
   };
 
   return (
