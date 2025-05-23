@@ -10,6 +10,18 @@ export default function SuccessPage() {
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
+    // Play success audio when component mounts
+    const audio = new Audio("/audio/success.mp3"); // Replace with your actual audio file name
+
+    // Set volume (optional - 0.0 to 1.0)
+    audio.volume = 1.0;
+
+    // Play the audio
+    audio.play().catch((error) => {
+      console.error("Audio playback failed:", error);
+      // This is normal if browser blocks autoplay
+    });
+
     // Auto redirect after 5 seconds
     const timer = setInterval(() => {
       setCountdown((prev) => prev - 1);
@@ -17,18 +29,22 @@ export default function SuccessPage() {
 
     const redirectTimer = setTimeout(() => {
       // Use window.location.replace() to prevent going back to this page
-      window.location.replace('/');
+      window.location.replace("/");
     }, 5000);
 
+    // Cleanup function
     return () => {
       clearInterval(timer);
       clearTimeout(redirectTimer);
+      // Stop audio if component unmounts early
+      audio.pause();
+      audio.currentTime = 0;
     };
   }, []);
 
   const handleGoHome = () => {
     // Use window.location.replace() here as well
-    window.location.replace('/');
+    window.location.replace("/");
   };
 
   return (
