@@ -5,7 +5,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Store } from "lucide-react";
+import { ShoppingCart, Store, Lock } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 interface HeaderProps {
@@ -52,6 +52,14 @@ export default function Header({ productsCount = 0 }: HeaderProps) {
 
           {/* Cart Button & Mobile Menu */}
           <div className="flex items-center space-x-2 md:space-x-4">
+            <Link href="/admin/login">
+              <Button
+                variant="outline"
+                className="p-2 md:px-4 md:py-2 border-gray-300 hover:border-blue-500 hover:text-blue-600 transition-colors cursor-pointer"
+              >
+                <Lock className="h-4 w-4 md:h-5 md:w-5" />
+              </Button>
+            </Link>
             {/* Products Count Badge */}
             {productsCount > 0 && (
               <div className="items-center space-x-2 bg-green-100 text-green-800 px-1 py-1 md:px-4 md:py-2 rounded-full border border-green-200 hidden lg:inline-flex">
@@ -66,7 +74,7 @@ export default function Header({ productsCount = 0 }: HeaderProps) {
             <Button
               variant="outline"
               onClick={handleCartClick}
-              className="relative p-2 md:px-4 md:py-2 border-gray-300 hover:border-green-500 hover:text-green-600 transition-colors"
+              className="relative p-2 md:px-4 md:py-2 border-gray-300 hover:border-green-500 hover:text-green-600 transition-colors cursor-pointer"
               disabled={totalItems === 0}
             >
               <ShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
@@ -74,7 +82,7 @@ export default function Header({ productsCount = 0 }: HeaderProps) {
                 Cart
               </span>
               {totalItems > 0 && (
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 md:h-6 md:w-6 flex items-center justify-center p-0 text-xs bg-green-600 hover:bg-green-600 animate-pulse">
+                <Badge className="absolute -top-2 -right-2 h-5 w-5 md:h-6 md:w-6 flex items-center justify-center p-0 text-xs bg-green-600 hover:bg-green-600 animate-pulse cursor-pointer">
                   {totalItems > 99 ? "99+" : totalItems}
                 </Badge>
               )}

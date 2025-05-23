@@ -1,10 +1,21 @@
+import { AdminUser } from "@/interface";
+
 // services/api.js
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 // Get token from localStorage
 const getToken = () => {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("token");
+    const adminStr = localStorage.getItem("admin_user");
+    if (adminStr) {
+      try {
+        const admin: AdminUser = JSON.parse(adminStr);
+        return admin?.token;
+      } catch (e) {
+        // JSON parse error, kuch nahi karna
+        return null;
+      }
+    }
   }
   return null;
 };
@@ -12,18 +23,16 @@ const getToken = () => {
 // Helper function for API calls
 const fetchAPI = async (endpoint: string, options = {}) => {
   const url = `${API_URL}${endpoint}`;
+  const token = getToken();
 
-  // Set default headers
-  // options को टाइप करें ताकि headers property एक्सिस्ट करे
-  const headers = {
+  const headers: any = {
     "Content-Type": "application/json",
     ...(options && (options as any).headers),
   };
 
-  // Add auth token if available
-  const token = getToken();
+  // ✅ Use Authorization header if token exists
   if (token) {
-    headers["x-auth-token"] = token;
+    headers["Authorization"] = `Bearer ${token}`;
   }
 
   const config = {
@@ -60,18 +69,75 @@ export const buyItems = (items: any) => {
 };
 
 // Admin API calls
-export const createBulkInventory = (items: any) => {
-  return fetchAPI("/inventory/bulk", {
-    method: "POST",
-    body: JSON.stringify({ items }),
+export const createBulkInventory = async (items: any[]) => {
+  const formData = new FormData();
+
+  // Append image files
+  items.forEach((item, index) => {
+    formData.append("images", item.image); // 👈 image must be a File
+    delete item.image; // remove before sending item metadata
   });
+
+  // Append metadata
+  formData.append("items", JSON.stringify(items));
+
+  const token = getToken();
+
+  const response = await fetch(`${API_URL}/inventory/bulk`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`, // ✅ only add this
+    },
+    body: formData, // ✅ browser will auto-set the content-type
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Bulk upload failed");
+  }
+
+  return await response.json();
 };
 
-export const updateInventoryItem = (id: any, itemData: any) => {
-  return fetchAPI(`/inventory/${id}`, {
+export const updateInventoryItem = async (id: string, itemData: any) => {
+  const token = getToken();
+
+  const hasFile = itemData.image instanceof File;
+
+  let body: any;
+  let headers: Record<string, string> = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  if (hasFile) {
+    // Use FormData if image is a File
+    const formData = new FormData();
+    if (itemData.name) formData.append("name", itemData.name);
+    if (itemData.price !== undefined) formData.append("price", itemData.price);
+    if (itemData.available_units !== undefined) {
+      formData.append("available_units", itemData.available_units);
+    }
+    formData.append("image", itemData.image); // 👈 must be File
+    body = formData;
+  } else {
+    // Use JSON if no file
+    headers["Content-Type"] = "application/json";
+    body = JSON.stringify(itemData);
+  }
+
+  const response = await fetch(`${API_URL}/inventory/${id}`, {
     method: "PUT",
-    body: JSON.stringify(itemData),
+    headers,
+    body,
   });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Inventory update failed");
+  }
+
+  return data;
 };
 
 export const loginAdmin = (username: any, password: any) => {

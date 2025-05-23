@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { CartProvider } from "@/contexts/CartContext";
+import { AdminProvider } from "@/contexts/AuthContext";
+import { Toaster } from "sonner";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
@@ -17,9 +19,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <div className="min-h-screen flex flex-col">
         <main className="flex-grow">
-          <CartProvider>
-            <Component {...pageProps} />
-          </CartProvider>
+          <AdminProvider>
+            <CartProvider>
+              <Toaster position="top-right" />
+              <Component {...pageProps} />
+            </CartProvider>
+          </AdminProvider>
         </main>
         <footer className="bg-gray-800 text-white py-4 text-center">
           <p>Copyright &copy; Vending Brothers {new Date().getFullYear()}</p>

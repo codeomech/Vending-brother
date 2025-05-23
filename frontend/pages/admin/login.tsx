@@ -1,7 +1,23 @@
-import React from "react";
+"use client";
 
-const login = () => {
-  return <div>login</div>;
-};
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAdmin } from "@/contexts/AuthContext";
+import { AdminLogin } from "@/components/AdminLogin";
 
-export default login;
+export default function AdminLoginPage() {
+  const { user } = useAdmin();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/admin/dashboard");
+    }
+  }, [user, router]);
+
+  if (user) {
+    return null; // or loading spinner
+  }
+
+  return <AdminLogin />;
+}

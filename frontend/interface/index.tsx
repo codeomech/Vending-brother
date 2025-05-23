@@ -1,5 +1,6 @@
 export interface Product {
   _id: string;
+  id?: string;
   name: string;
   price: number;
   available_units: number;
@@ -48,4 +49,17 @@ export interface PurchaseResponse {
     cost: number;
   }>;
   totalCost: number;
+}
+
+export interface AdminUser {
+  id: string;
+  username: string;
+  token: string;
+}
+
+export interface BulkProduct {
+  name: string;
+  price: string;
+  quantity: string;
+  image: File | null;
 }
