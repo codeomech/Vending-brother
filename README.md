@@ -1,6 +1,6 @@
 # 🍿 Wendor Vending Machine
 
-A modern, full-stack vending machine application built with Next.js, TypeScript, Node.js, and MongoDB. Features a sleek user interface with real-time inventory management and secure payment processing.
+A modern, full-stack vending machine application built with Next.js, TypeScript, Node.js, and MongoDB. Features a sleek user interface with real-time inventory management and admin Panel.
 
 ![Vending Machine Demo](https://img.shields.io/badge/Status-Active-green) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
 
