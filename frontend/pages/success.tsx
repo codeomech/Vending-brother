@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Router } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Home, ShoppingCart, Gift } from "lucide-react";
 
 export default function SuccessPage() {
-  const router = Router();
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
