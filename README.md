@@ -95,8 +95,8 @@ A modern, full-stack vending machine application built with Next.js, TypeScript,
 ## 🎯 Usage
 
 ### Starting the Application
-1. **Backend**: `cd vending-machine-api && npm run dev` (Port 5000)
-2. **Frontend**: `cd vending-machine-ui && npm run dev` (Port 3000)
+1. **Backend**: `cd backend && npm run dev` (Port 5000)
+2. **Frontend**: `cd frontend && npm run dev` (Port 3000)
 3. **Access**: Open [http://localhost:3000](http://localhost:3000)
 
 ### Initial Setup
