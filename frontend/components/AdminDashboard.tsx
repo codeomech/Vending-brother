@@ -51,16 +51,36 @@ export const AdminDashboard = () => {
     }
   };
 
-  const handleUpdateProduct = async (id: string, updates: Partial<Product>) => {
+  const handleUpdateProduct = async (
+    id: string,
+    updates: Partial<Product>,
+    fileData: File
+  ) => {
     try {
-      await updateInventoryItem(id, updates);
+      console.log(updates);
+      await updateInventoryItem(id, updates, fileData);
 
       setProducts(
-        products.map((product) =>
-          product._id === id
-            ? { ...product, ...updates, updatedAt: new Date().toISOString() }
-            : product
-        )
+        products.map((product) => {
+          if (product._id === id) {
+            // सुनिश्चित करें कि display_image_url हमेशा string हो
+            let updatedDisplayImageUrl = product.display_image_url;
+            if (
+              updates.display_image_url &&
+              typeof updates.display_image_url === "string"
+            ) {
+              updatedDisplayImageUrl = updates.display_image_url;
+            }
+            // अन्य fields को अपडेट करें, लेकिन display_image_url को string ही रखें
+            return {
+              ...product,
+              ...updates,
+              display_image_url: updatedDisplayImageUrl,
+              updatedAt: new Date().toISOString(),
+            };
+          }
+          return product;
+        })
       );
 
       toast.success("Product updated successfully");
@@ -184,7 +204,9 @@ export const AdminDashboard = () => {
         {/* Product Management */}
         <ProductTable
           products={products}
-          onUpdateProduct={handleUpdateProduct}
+          onUpdateProduct={(id, updates, imageFile) =>
+            handleUpdateProduct(id, updates, imageFile as File)
+          }
           onRefetchData={loadProducts}
         />
 

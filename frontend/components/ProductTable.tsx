@@ -84,12 +84,13 @@ export const ProductTable = ({
 
     try {
       // Prepare the update data (exclude imageFile and removeImage from the main update)
+      console.log(editData);
       const updateData = {
         name: editData.name,
         price: editData.price,
         available_units: editData.available_units,
         ...(editData.removeImage && {
-          display_image_url: "http://example.com/images/default.jpg",
+          display_image_url: "",
         }),
       };
 

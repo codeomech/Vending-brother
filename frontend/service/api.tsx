@@ -99,10 +99,16 @@ export const createBulkInventory = async (items: any[]) => {
   return await response.json();
 };
 
-export const updateInventoryItem = async (id: string, itemData: any) => {
+export const updateInventoryItem = async (
+  id: string,
+  itemData: any,
+  file: File
+) => {
   const token = getToken();
+  console.log(itemData);
 
-  const hasFile = itemData.image instanceof File;
+  const hasFile = file instanceof File;
+  console.log(hasFile);
 
   let body: any;
   let headers: Record<string, string> = {
@@ -110,6 +116,7 @@ export const updateInventoryItem = async (id: string, itemData: any) => {
   };
 
   if (hasFile) {
+    console.log(itemData);
     // Use FormData if image is a File
     const formData = new FormData();
     if (itemData.name) formData.append("name", itemData.name);
@@ -117,7 +124,7 @@ export const updateInventoryItem = async (id: string, itemData: any) => {
     if (itemData.available_units !== undefined) {
       formData.append("available_units", itemData.available_units);
     }
-    formData.append("image", itemData.image); // 👈 must be File
+    formData.append("image", file); // 👈 must be File
     body = formData;
   } else {
     // Use JSON if no file
